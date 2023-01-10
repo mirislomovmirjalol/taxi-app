@@ -3,10 +3,13 @@ import React from "react";
 import {StyleSheet, Text, View, SafeAreaView, Image} from 'react-native';
 import tw from 'tailwind-react-native-classnames';
 import NavOptions from "../components/NavOptions";
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import {GOOGLE_MAPS_APIKEY} from "@env";
+import {useDispatch} from "react-redux";
+import {setDestination, setOrigin} from "../slices/navSlice";
 
 const HomeScreen = () => {
+    const dispatch = useDispatch();
     return (
         <SafeAreaView style={tw`bg-white h-full`}>
             <View style={tw`p-5`}>
@@ -27,17 +30,26 @@ const HomeScreen = () => {
                             fontSize: 18,
                         }
                     }}
-                    onPress={(data, details = null) => {
-                        // 'details' is provided when fetchDetails = true
-                        console.log(data, details);
-                    }}
-                    fetchDetails
                     query={{
                         key: GOOGLE_MAPS_APIKEY,
                         language: 'en',
+                        // this auto complete search places only inside uk
+                        components: 'country:uk',
                     }}
                     nearbyPlacesAPI='GooglePlacesSearch'
+                    fetchDetails={true}
+                    returnKeyType={'search'}
+                    enablePoweredByContainer={false}
+                    minLength={3}
                     debounce={400}
+                    onPress={
+                        (data, details = null) => {
+                            dispatch(setOrigin({
+                                location: details.geometry.location,
+                                description: data.description,
+                            }));
+                        }
+                    }
                 />
 
                 <NavOptions/>
