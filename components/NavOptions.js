@@ -11,7 +11,7 @@ const data = [
         id: "123",
         title: "Get a ride",
         image: "https://links.papareact.com/3pn",
-        screen: "MapScreen",
+        screen: "RideScreen",
     },
     {
         id: "456",
@@ -44,7 +44,7 @@ const NavOptions = () => {
                             {item.title}
                         </Text>
                         <Icon
-                            style={tw`p-2 bg-black rounded-full w-10 mt-4`}
+                            style={tw`p-2 bg-gray-800 rounded-full w-10 mt-4`}
                             name="arrowright"
                             color="white"
                             type="antdesign"/>
