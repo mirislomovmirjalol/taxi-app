@@ -26,6 +26,7 @@ const NavOptions = () => {
 
     return (
         <FlatList
+            style={tw`mx-auto`}
             data={data}
             keyExtractor={(item) => item.id}
             horizontal

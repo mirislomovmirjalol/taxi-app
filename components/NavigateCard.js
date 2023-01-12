@@ -3,8 +3,8 @@ import {StyleSheet, View, Text, SafeAreaView, TouchableOpacity} from "react-nati
 import tw from "tailwind-react-native-classnames";
 import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
 import {GOOGLE_MAPS_APIKEY} from "@env";
-import {useDispatch} from "react-redux";
-import {setDestination} from "../slices/navSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {selectDestination, selectOrigin, setDestination, setOrigin} from "../slices/navSlice";
 import {useNavigation} from "@react-navigation/native";
 import RideOptionsCard from "./RideOptionsCard";
 import FavouritePlaces from "./FavouritePlaces";
@@ -12,18 +12,43 @@ import {Icon} from "@rneui/base";
 
 const NavigateCard = () => {
     const dispatch = useDispatch();
+    const origin = useSelector(selectOrigin);
+    const destination = useSelector(selectDestination);
     const navigation = useNavigation();
 
     return (
         <SafeAreaView style={tw`bg-white flex-1`}>
-            <Text
-                style={tw`text-center py-5 text-xl`}
-            >
-                Plan your ride
-            </Text>
+            <View style={tw`flex-row bg-white ml-6`}>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("Home")}
+                    style={tw`rounded-full shadow-lg`}
+                >
+                    <Icon
+                        style={tw`p-2 bg-black rounded-full w-10 mt-4`}
+                        name="arrowleft"
+                        color="white"
+                        type="antdesign"
+                    />
+                </TouchableOpacity>
+                <Text
+                    style={tw`ml-4 py-5 text-xl`}
+                >
+                    Plan your ride
+                </Text>
+            </View>
             <View style={tw`border-t border-gray-200 flex-shrink h-full`}>
                 <View>
+
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("Home")}
+                        style={tw`bg-gray-200 mx-5 mt-4 p-2`}
+                    >
+                        <Text style={tw`text-lg`}>
+                            {origin.description}
+                        </Text>
+                    </TouchableOpacity>
                     <GooglePlacesAutocomplete
+                        autoFocus={true}
                         placeholder={'Where to?'}
                         nearbyPlacesAPI={'GooglePlacesSearch'}
                         styles={toInputBoxStyles}
@@ -46,16 +71,23 @@ const NavigateCard = () => {
 
                             navigation.navigate(RideOptionsCard)
                         }}
+                        textInputProps={{
+                            value: destination?.description,
+                            onChangeText: (text) => {
+                                dispatch(setDestination(null));
+                            }
+                        }}
                     />
                 </View>
 
                 <View style={tw`p-5`}>
-                    <FavouritePlaces/>
+                    <FavouritePlaces dispatchFor="destination"/>
                 </View>
                 <View style={tw`flex-row bg-white justify-evenly py-2 border-t border-gray-100 mt-auto`}>
                     <TouchableOpacity
-                        style={tw`flex flex-row justify-between bg-black w-24 px-4 py-3 rounded-full`}
+                        style={tw`flex flex-row justify-between bg-black w-24 px-4 py-3 rounded-full ${(!destination || !origin) && "opacity-20"}`}
                         onPress={() => navigation.navigate(RideOptionsCard)}
+                        disabled={!origin || !destination}
                     >
                         <Icon
                             name="car"
