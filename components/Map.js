@@ -38,8 +38,8 @@ const map = () => {
             style={{height: "100%", width: "100%"}}
             mapType="mutedStandard"
             initialRegion={{
-                latitude: origin.location.lat,
-                longitude: origin.location.lng,
+                latitude: origin?.location.lat,
+                longitude: origin?.location.lng,
                 latitudeDelta: 0.005,
                 longitudeDelta: 0.005,
             }}

@@ -103,7 +103,10 @@ const RideOptionsCard = () => {
                 />
 
                 <View>
-                    <TouchableOpacity style={tw`bg-black py-3 m-3 rounded-lg`}>
+                    <TouchableOpacity
+                        style={tw`bg-black py-3 m-3 rounded-lg`}
+                        onPress={() => navigation.navigate("SearchingCarScreen")}
+                    >
                         <Text style={tw`text-center text-white text-xl`}>Choose {selected?.title}</Text>
                     </TouchableOpacity>
                 </View>

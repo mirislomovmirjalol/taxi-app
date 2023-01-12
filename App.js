@@ -8,6 +8,7 @@ import {SafeAreaProvider} from "react-native-safe-area-context";
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import React from "react";
+import SearchingCarScreen from "./screens/SearchingCarScreen";
 
 export default function App() {
     const Stack = createStackNavigator();
@@ -31,6 +32,13 @@ export default function App() {
                             <Stack.Screen
                                 name="RideScreen"
                                 component={RideScreen}
+                                options={{
+                                    headerShown: false,
+                                }}
+                            />
+                            <Stack.Screen
+                                name="SearchingCarScreen"
+                                component={SearchingCarScreen}
                                 options={{
                                     headerShown: false,
                                 }}
