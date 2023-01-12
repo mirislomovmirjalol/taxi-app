@@ -5,12 +5,14 @@ import tw from 'tailwind-react-native-classnames';
 import NavOptions from "../components/NavOptions";
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import {GOOGLE_MAPS_APIKEY} from "@env";
-import {useDispatch} from "react-redux";
-import {setDestination, setOrigin} from "../slices/navSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {selectDestination, selectOrigin, setDestination, setOrigin} from "../slices/navSlice";
 import FavouritePlaces from "../components/FavouritePlaces";
 
 const HomeScreen = () => {
     const dispatch = useDispatch();
+    const origin = useSelector(selectOrigin);
+
     return (
         <SafeAreaView style={tw`bg-white h-full`}>
             <View style={tw`p-5`}>
@@ -51,10 +53,18 @@ const HomeScreen = () => {
                             }));
                         }
                     }
+                    textInputProps={{
+                        value: origin?.description,
+                        onChangeText: (text) => {
+                            dispatch(setOrigin(null));
+                        }
+                    }}
+
+                    // defaultValue={origin.description}
                 />
 
                 <NavOptions/>
-                <FavouritePlaces/>
+                <FavouritePlaces dispatchFor={"origin"}/>
             </View>
         </SafeAreaView>
     );
