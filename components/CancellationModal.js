@@ -1,9 +1,15 @@
 import tw from "tailwind-react-native-classnames";
 import {Text, TouchableOpacity, View} from "react-native";
 import {Icon, Overlay} from "@rneui/base";
-import RideOptionsCard from "./RideOptionsCard";
+import {useNavigation} from "@react-navigation/native";
+import {useDispatch} from "react-redux";
+import {setDestination, setOrigin, setTravelTimeInformation} from "../slices/navSlice";
 
 const CancellationModal = ({visible, toggleOverlay, onConfirm}) => {
+
+    const navigation = useNavigation();
+    const dispatch = useDispatch();
+
     return (
         <Overlay
             isVisible={visible}
@@ -35,6 +41,14 @@ const CancellationModal = ({visible, toggleOverlay, onConfirm}) => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={tw`flex flex-row justify-evenly bg-red-600 w-24 px-4 py-3 rounded-full ml-4`}
+                        onPress={() => {
+                            dispatch(setOrigin(null));
+                            dispatch(setDestination(null));
+                            dispatch(setTravelTimeInformation(null));
+
+                            navigation.navigate("Home");
+                            toggleOverlay();
+                        }}
                     >
                         <Text
                             style={tw`text-white text-center`}>Confirm</Text>
