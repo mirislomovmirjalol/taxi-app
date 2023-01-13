@@ -1,11 +1,17 @@
 # taxi-app
 
-### npm install
+1. **Install dependencies**
+   ```
+    npm install
+   ```
+2. **Register on google APIs**
 
-### Register on google APIs
-
-### cp .env.example .env
-
-### Set your google API key in .env
-
-### expo start
+3. **Set up .env file**
+   ```
+   cp .env.example .env
+   ```
+   ### Set your API key in .env file
+4. **Start serving**
+   ```
+   expo start
+   ```
